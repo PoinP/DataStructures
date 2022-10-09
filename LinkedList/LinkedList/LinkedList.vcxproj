@@ -130,7 +130,9 @@
     <ClInclude Include="LinkedList.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="LinkedList.cpp" />
+    <ClInclude Include="LinkedList.inl">
+      <FileType>Document</FileType>
+    </ClInclude>
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
