@@ -43,7 +43,10 @@ template<typename Type>
 inline LinkedList<Type>& LinkedList<Type>::operator=(const LinkedList<Type>& other)
 {
 	if (this != &other)
+	{
+		clearData();
 		copy(other);
+	}
 
 	return *this;
 }
