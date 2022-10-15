@@ -550,56 +550,6 @@ void LinkedList<Type>::clearData()
 	m_Tail = nullptr;
 }
 
-// Needs a solid refactoring lmao
-template<typename Type>
-inline LinkedList<Type>& LinkedList<Type>::removeHelper(const Type& target, Node*& from)
-{
-	if (empty())
-		return *this;
-
-	if (from == m_Head)
-	{
-		if (from->data == target)
-		{
-			popFront();
-			from = m_Head;
-			return *this;
-		}
-	}
-
-	Node* prevNode = from;
-	Node* currNode = from->next;
-
-	while (currNode)
-	{
-		if (currNode->data == target)
-		{
-			if (m_Tail == m_Head)
-			{
-				popFront();
-				return *this;
-			}
-
-			Node* nextNode = currNode->next;
-			prevNode->next = nextNode;
-
-			if (m_Tail == currNode)
-				m_Tail = prevNode;
-
-			from = prevNode;
-			delete currNode;
-
-			return *this;
-		}
-
-		prevNode = prevNode->next;
-		currNode = prevNode->next;
-	}
-
-	from = nullptr;
-	return *this;
-}
-
 template<typename Type>
 inline void LinkedList<Type>::throwIfNull(const Node* node) const
 {

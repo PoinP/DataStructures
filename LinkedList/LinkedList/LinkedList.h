@@ -99,10 +99,7 @@ private:
 	void swap(Node*& firstNode, Node*& secondNode);
 	void move(LinkedList&& other);
 	void clearData();
-
-	LinkedList& removeHelper(const Type& target, Node*& from);
 	void throwIfNull(const Node* node) const;
-
 
 public:
 	class ConstIterator
