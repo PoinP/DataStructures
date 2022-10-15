@@ -9,7 +9,12 @@
 int main()
 {
 	{
-		LinkedList<int> list = LinkedList<int>({ 1, 2, 3, 4 });
+		LinkedList<int> list = LinkedList<int>({ 1, 2, 3 });
+
+		for (auto item : list)
+		{
+			std::cout << item << " ";
+		}
 	}
 
 	_CrtDumpMemoryLeaks();
