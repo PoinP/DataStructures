@@ -3,7 +3,6 @@
 #include <initializer_list>
 #include <algorithm>
 #include <stdexcept>
-#include <iostream>
 
 template<typename Type>
 inline LinkedList<Type>::LinkedList()
