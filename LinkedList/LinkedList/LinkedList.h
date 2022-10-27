@@ -4,8 +4,6 @@
 
 #include <initializer_list>
 
-// TODO: Add iterator
-
 template<typename Type>
 class LinkedList
 {
@@ -15,6 +13,35 @@ class LinkedList
 		Node* next;
 
 		Node(const Type& data, Node* next = nullptr) : data(data), next(next) {}
+	};
+
+	class Iterator
+	{
+	public:
+
+		using difference_type = std::ptrdiff_t;
+		using value_type = Node;
+		using pointer = Node*;
+		using reference = Node&;
+		using const_reference = const Node&;
+		using iterator_category = std::forward_iterator_tag;
+
+		Iterator(pointer ptr);
+
+		Iterator& operator++();
+		Iterator operator++(int);
+
+		bool operator==(const Iterator& other) const;
+		bool operator!=(const Iterator& other) const;
+
+		pointer operator->();
+		reference operator*();
+		reference operator*() const;
+
+		pointer getPtr() const noexcept;
+
+	private:
+		pointer m_Ptr;
 	};
 
 public:
@@ -41,6 +68,7 @@ public:
 
 	LinkedList& remove(const Type& target);
 	LinkedList& removeFirst(const Type& target);
+
 
 	// -------- ELEMENT ACCESS --------
 
