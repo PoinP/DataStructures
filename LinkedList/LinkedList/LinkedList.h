@@ -7,6 +7,7 @@
 template<typename Type>
 class LinkedList
 {
+private:
 	struct Node
 	{
 		Type data;
@@ -45,6 +46,9 @@ class LinkedList
 	};
 
 public:
+	class Iterator;
+	class ConstIterator;
+
 	LinkedList();
 	explicit LinkedList(std::initializer_list<Type> initList);
 	LinkedList(const LinkedList& other);
@@ -53,6 +57,12 @@ public:
 
 	LinkedList& operator=(const LinkedList& other);
 	LinkedList& operator=(LinkedList&& other) noexcept;
+
+	LinkedList& assign(const Type* values, size_t count);
+	template<typename InputIt>
+	LinkedList& assign(InputIt begin, InputIt end);
+	LinkedList& assign(std::initializer_list<Type> initList);
+
 
 	// -------- MODIFIERS --------
 
@@ -63,11 +73,17 @@ public:
 	Type popBack(); // Note: It takes O(n) complexity to popBack an item!
 
 	LinkedList& clear();
-	LinkedList& reverse();
-	LinkedList& sort(); // Sorts in ascending order
 
-	LinkedList& remove(const Type& target);
-	LinkedList& removeFirst(const Type& target);
+	LinkedList& insertAfter(ConstIterator pos, const Type& value);
+	LinkedList& insertAfter(ConstIterator pos, const Type* values, size_t count);
+	template<typename InputIt>
+	LinkedList& insertAfter(ConstIterator pos, InputIt begin, InputIt end);
+	LinkedList& insertAfter(ConstIterator pos, std::initializer_list<Type> initList);
+
+	LinkedList& eraseAfter(ConstIterator pos);
+	LinkedList& eraseAfter(ConstIterator first, ConstIterator last);
+
+	LinkedList& swap(LinkedList& other);
 
 
 	// -------- ELEMENT ACCESS --------
@@ -83,11 +99,26 @@ public:
 
 	const Type& read(int nodeIndex) const;
 
-	// -------- CAPACITY AND MISC --------
+	// -------- ITERATORS --------
 
-	// Returns the size by traversing the list. O(n) time complexity
-	int size() const;
-	void print() const;
+	Iterator begin();
+	ConstIterator begin() const;
+
+	Iterator end();
+	ConstIterator end() const;
+
+	// -------- OPERATIONS --------
+
+	LinkedList& merge(LinkedList& other); // Probably a slow af merge
+	LinkedList& remove(const Type& target);
+	template <typename Predicate>
+	LinkedList& removeIf(Predicate predicate);
+	LinkedList& reverse();
+	LinkedList& sort(); // Sorts in ascending order
+
+	// -------- CAPACITY --------
+
+	int size() const; // Returns the size by traversing the list. O(n) time complexity
 	bool empty() const;
 
 private:
@@ -95,11 +126,42 @@ private:
 	Node* m_Tail;
 
 	void copy(const LinkedList& other);
+	void swap(Node*& firstNode, Node*& secondNode);
 	void move(LinkedList&& other);
 	void clearData();
-
-	LinkedList& removeHelper(const Type& target, Node*& from);
 	void throwIfNull(const Node* node) const;
+
+public:
+	class ConstIterator
+	{
+		friend LinkedList<Type>;
+
+	public:
+		ConstIterator(Node* ptr = nullptr);
+
+		ConstIterator& operator++();   // Prefix ++
+		ConstIterator operator++(int); // Postfix ++
+
+		const Type& operator*() const;
+		const Type* operator->() const;
+
+		bool operator==(const ConstIterator& other) const;
+		bool operator!=(const ConstIterator& other) const;
+
+	protected:
+		Node* m_Ptr;
+	};
+
+	class Iterator : public ConstIterator
+	{
+		friend LinkedList<Type>;
+
+	public:
+		Iterator(Node* ptr = nullptr);
+
+		Type& operator*();
+		Type* operator->();
+	};
 };
 
 #include "LinkedList.inl"
