@@ -4,6 +4,67 @@
 #include <algorithm>
 #include <stdexcept>
 
+// --------  Iterator  --------
+
+template<typename Type>
+inline LinkedList<Type>::Iterator::Iterator(pointer ptr)
+	: m_Ptr(ptr)
+{
+}
+
+template<typename Type>
+inline LinkedList<Type>::Iterator& LinkedList<Type>::Iterator::operator++()
+{
+	*this++;
+	return *this;
+}
+
+template<typename Type>
+inline LinkedList<Type>::Iterator LinkedList<Type>::Iterator::operator++(int)
+{
+	Node* oldValue = m_Ptr;
+	*this++;
+	return oldValue;
+}
+
+template<typename Type>
+inline bool LinkedList<Type>::Iterator::operator==(const Iterator& other) const
+{
+	return m_Ptr == other.m_Ptr;
+}
+
+template<typename Type>
+inline bool LinkedList<Type>::Iterator::operator!=(const Iterator& other) const
+{
+	return !(*this == other);
+}
+
+template<typename Type>
+inline LinkedList<Type>::Node* LinkedList<Type>::Iterator::operator->()
+{
+	return m_Ptr;
+}
+
+template<typename Type>
+inline LinkedList<Type>::Node& LinkedList<Type>::Iterator::operator*()
+{
+	return m_Ptr;
+}
+
+template<typename Type>
+inline LinkedList<Type>::Node& LinkedList<Type>::Iterator::operator*() const
+{
+	return m_Ptr;
+}
+
+template<typename Type>
+inline LinkedList<Type>::Node* LinkedList<Type>::Iterator::getPtr() const noexcept
+{
+	return m_Ptr;
+}
+
+
+// -------- LinkedList --------
 template<typename Type>
 inline LinkedList<Type>::LinkedList()
 	: m_Head(nullptr), m_Tail(nullptr)
